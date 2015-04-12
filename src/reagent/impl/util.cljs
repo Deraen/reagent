@@ -104,27 +104,14 @@
 
 (defonce roots (atom {}))
 
-(defn clear-container [node]
-  ;; If render throws, React may get confused, and throw on
-  ;; unmount as well, so try to force React to start over.
-  (try
-    (.' js/React unmountComponentAtNode node)
-    (catch js/Object e
-      (do (warn "Error unmounting:")
-          (log e)))))
-
 (defn render-component [comp container callback]
-  (try
-    (binding [*always-update* true]
-      (.' js/React render (comp) container
-          (fn []
-            (binding [*always-update* false]
-              (swap! roots assoc container [comp container])
-              (if (some? callback)
-                (callback))))))
-    (catch js/Object e
-      (do (clear-container container)
-          (throw e)))))
+  (binding [*always-update* true]
+    (.' js/React render (comp) container
+        (fn []
+          (binding [*always-update* false]
+            (swap! roots assoc container [comp container])
+            (if (some? callback)
+              (callback)))))))
 
 (defn re-render-component [comp container]
   (render-component comp container nil))
