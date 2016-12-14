@@ -37,8 +37,7 @@ This is all you need to do if you want the standard version of React. If you wan
     [reagent "0.6.0" :exclusions [cljsjs/react]]
     [cljsjs/react-with-addons "15.2.1-0"]
 
-If you want to use your own build of React (or React from a CDN), you have to use `:exclusions` variant of the dependency, and also provide a file named "cljsjs/react.cljs", containing just `(ns cljsjs.react)`, in your project.
-
+If you want to use your own build of React (or React from a CDN), you have to use `:exclusions` to remove `cljsjs/react`, `cljsjs/react-dom` and `cljsjs/react-dom-server` dependencies and also provide empty Cljs namespaces `cljsjs.react` and `cljsjs.react.dom` for Reagent.
 
 ## Examples
 
